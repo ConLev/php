@@ -1,0 +1,20 @@
+
+PHP : Включить показ предупреждений и ошибок PHP
+
+Включение вывода всех ошибок и предупреждений в файле php.ini
+error_reporting = E_ALL
+display_errors = On
+display_startup_errors = On
+
+Включение вывода всех ошибок и предупреждений в коде PHP-скриптов
+Включить вывод уведомлений и предупреждений можно, добавив в начало нужного .php файла следующие строки:
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+
+Включение вывода всех ошибок и предупреждений в файле .htaccess
+php_value display_errors 1
+php_value display_startup_errors 1
+php_value error_reporting E_ALL

@@ -1,0 +1,88 @@
+
+XAMPP — настройка виртуального сервера
+
+Первоначальная настройка:
+
+Изначально XAMPP имеет один адрес это localhost
+При загрузке — должна открыться страница с информацией о сервере, версии PHP ссылками на phpmyadmin и пр.
+
+Создание своего хоста Apache VirtualHosts
+
+1. Открываем конфигурационный файл — /Applications/XAMPP/xamppfiles/etc/httpd.conf 
+
+1.1. Меняем User daemon на User username (стр. 173)
+
+171      #running httpd, as with most system services. 
+172      # 
+173      User daemon 
+174      Group daemon 
+175  </IfModule> 
+
+где username — имя пользователя в системе Mac OS X
+171      #running httpd, as with most system services. 
+172      # 
+173      User username
+174      Group daemon 
+175  </IfModule>  
+
+
+1.2. Включаем VirtualHosts — раскомментировав (стр. 488)
+Include etc/extra/httpd-vhosts.conf
+
+487    #Virtual hosts
+488    #Include etc/extra/httpd-vhosts.conf
+
+убираем решетку перед Include
+487    #Virtual hosts                  
+488    Include etc/extra/httpd-vhosts.conf 
+
+2. Добавляем свои хосты — открываем файл — /Applications/XAMPP/etc/extra/httpd-vhosts.conf
+
+2.1. Чтобы оставить локальный хост работающим без изменений:
+
+#localhost 
+<VirtualHost *:80> 
+    ServerName localhost 
+    DocumentRoot "/Applications/XAMPP/xamppfiles/htdocs" 
+    <Directory "/Applications/XAMPP/xamppfiles/htdocs"> 
+        Options Indexes FollowSymLinks Includes execCGI 
+        AllowOverride All 
+        Allow From All 
+        Order Allow,Deny 
+    </Directory> 
+</VirtualHost> 
+
+2.2. Подключаем свой сайт:
+username — имя пользователя в системе Mac OS X
+folder — папке сайта
+
+<VirtualHost *:80>
+    ServerAdmin mail@gmail.com
+    DocumentRoot "/Users/username/folder"
+	<Directory "/Users/username/folder">
+        Options ALL
+        AllowOverride All
+        Allow From All
+        Require all granted
+    </Directory>
+    ServerName my.site
+    ServerAlias www.my.site
+    ErrorLog "logs/my.site-error_log"
+    CustomLog "logs/my.site-access_log" common
+</VirtualHost> 
+
+
+3. Необходимо указать системе Mac OS X, где находятся виртуальные сайты.
+В терминале вводим команду:
+
+sudo nano /private/etc/hosts
+
+Добавляем в конец файла hosts строчку: 127.0.0.1 my.site
+
+#XAMPP    VirtualHost  
+127.0.0.1        my.site
+
+Перезапускаем XAMPP и виртуальные хосты добавлены.
+
+по localhost — откроется XAMPP
+по my.site — откроется наш сайт.
