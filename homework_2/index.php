@@ -104,9 +104,9 @@ $year = date("Y");
 
         /**
          * Функция сложения чисел
-         * @param {number} $a - первое число
-         * @param {number} $b - второе число
-         * @return mixed - возвращает сумму
+         * @param int|float $a - первое число
+         * @param int|float $b - второе число
+         * @return int|float - возвращает сумму
          */
         function addition($a, $b)
         {
@@ -115,9 +115,9 @@ $year = date("Y");
 
         /**
          * Функция вычитания чисел
-         * @param {number} $a - первое число
-         * @param {number} $b - второе число
-         * @return mixed - возвращает разность
+         * @param int|float $a - первое число
+         * @param int|float $b - второе число
+         * @return int|float - возвращает разность
          */
         function subtraction($a, $b)
         {
@@ -126,9 +126,9 @@ $year = date("Y");
 
         /**
          * Функция умножения чисел
-         * @param {number} $a - первое число
-         * @param {number} $b - второе число
-         * @return mixed - возвращает произведение
+         * @param int|float $a - первое число
+         * @param int|float $b - второе число
+         * @return int|float - возвращает произведение
          */
         function multiplication($a, $b)
         {
@@ -137,9 +137,9 @@ $year = date("Y");
 
         /**
          * Функция деления чисел
-         * @param {number} $a - первое число
-         * @param {number} $b - второе число
-         * @return mixed - возвращает частное
+         * @param int|float $a - первое число
+         * @param int|float $b - второе число
+         * @return int|float - возвращает частное
          */
         function division($a, $b)
         {
@@ -173,10 +173,10 @@ $year = date("Y");
 
         /**
          * Функция основных математических операций
-         * @param {number} $arg1 - первое число
-         * @param {number} $arg2 - второе число
-         * @param {string} $operation - выбор операции
-         * @return mixed - результат вычисления
+         * @param int|float $arg1 - первое число
+         * @param int|float $arg2 - второе число
+         * @param string $operation - выбор операции
+         * @return int|float - результат вычисления
          */
         function mathOperation($arg1, $arg2, $operation)
         {
@@ -221,29 +221,31 @@ $year = date("Y");
         Формат: function power($val, $pow), где $val – заданное число, $pow – степень.</p>';
 
         /**Функция возведения в степень
-         * @param $val - число возводимое в степень
-         * @param $pow - степень возведения
-         * @return float|int - результат возведения числа в степень
+         * @param int|float $val - число возводимое в степень
+         * @param int $pow - степень возведения
+         * @return int|float - результат возведения числа в степень
          */
         function power($val, $pow)
         {
             if ($pow >= 1) {
-                return $val * power($val, $pow - 1);
+                return $val * power($val, (int)$pow - 1);
             } elseif ($pow <= -1) {
-                return $val / power($val, ($pow - 1) * (-1));
+                return $val / power($val, (int)($pow - 1) * (-1));
             }
             return 1;
         }
 
-        echo '2 в степени 5 = ' . power(2, 5);
+        echo '2 в степени 5 = ' . power(2, 5.7);
         echo '<br>';
         echo '2 в степени 1 = ' . power(2, 1);
         echo '<br>';
         echo '2 в степени 0 = ' . power(2, 0);
         echo '<br>';
+        echo '0.5 в степени 3 = ' . power(0.5, 3);
+        echo '<br>';
         echo '2 в степени -1 = ' . power(2, -1);
         echo '<br>';
-        echo '2 в степени -5 = ' . power(2, -5);
+        echo '2 в степени -5 = ' . power(2, -5.7);
         echo '<br>';
 
         echo '<br><p class="task">7. *Написать функцию, которая вычисляет текущее время и возвращает его в формате 
@@ -258,11 +260,11 @@ $year = date("Y");
 
         /**
          * Функция для определения правильного склонения числительного
-         * @param $count - число
-         * @param $first - первый вариант склонения числительного
-         * @param $second - второй вариант склонения числительного
-         * @param $third - третий вариант склонения числительного
-         * @return mixed - возвращает правильное склонение числительного
+         * @param int $count - число
+         * @param string $first - первый вариант склонения числительного
+         * @param string $second - второй вариант склонения числительного
+         * @param string $third - третий вариант склонения числительного
+         * @return string - возвращает правильное склонение числительного
          */
         function wordDeclension($count, $first, $second, $third)
         {
