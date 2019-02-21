@@ -48,9 +48,8 @@ body {
     justify-content: space-evenly;
 }
 
-.top_menu_list {
-    position: relative;
-    list-style-type: none;
+.top_menu_list, .sub_menu_list {
+    /*list-style-type: none;*/
 }
 
 .top_menu_link, .sub_menu_link {
@@ -63,18 +62,12 @@ body {
     color: red;
 }
 
-.top_menu_list:hover .sub_menu {
-    transform: scaleY(1);
+.top_menu:hover .sub_menu {
+    display: block;
 }
 
 .sub_menu {
-    position: absolute;
-    transform: scaleY(0);
-    transform-origin: 0 0;
-}
-
-.sub_menu_list {
-    list-style-type: none;
+    display: none;
 }
 
 .clr {

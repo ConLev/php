@@ -22,11 +22,9 @@ $year = date("Y");
         $minNumber = 0;
         $maxNumber = 100;
         while ($minNumber <= $maxNumber) {
-            if ($minNumber % 3 !== 0) {
-                $minNumber++;
-                continue;
+            if ($minNumber % 3 === 0) {
+                echo "$minNumber, ";
             }
-            echo "$minNumber, ";
             $minNumber++;
         }
         echo '<br>';
@@ -89,15 +87,23 @@ $year = date("Y");
 
         foreach ($arr as $region => $cities) {
             echo "$region: <br>";
-            $i = -1;
-            foreach ($cities as $city) {
-                $i++;
-                if (array_key_last($cities) === $i) {
-                    echo "$city";
-                } else {
-                    echo "$city, ";
-                }
-            }
+            echo implode(', ', $cities);
+//            $i = -1;
+//            foreach ($cities as $city) {
+//            $i++;
+//                if (array_key_last($cities) === $i) {
+//                    echo "$city";
+//                } else {
+//                    echo "$city, ";
+//                }
+//            $count = count($cities);
+//            foreach ($cities as $key => $city) {
+//                if ($key + 1 === $count) {
+//                    echo "$city";
+//                } else {
+//                    echo "$city, ";
+//                }
+//            }
             echo '<br>';
         }
 
@@ -143,10 +149,12 @@ $year = date("Y");
                 'ю' => 'yu',
                 'я' => 'ya',
             ];
-            return str_replace(array_keys($letters), array_values($letters), $word);
+            $word = mb_strtolower($word);
+            //return str_replace(array_keys($letters), array_values($letters), $word);
+            return strtr($word, $letters);
         }
 
-        echo transliteration("я функция транслитерации и я работаю, но только с прописными буквами :(<br>");
+        echo transliteration("Я функция транслитерации кириллицы в латиницу.<br>");
 
         echo '<br><p class="task">5. Написать функцию, которая заменяет в строке пробелы на подчеркивания
         и возвращает видоизмененную строчку.</p>';
@@ -158,7 +166,7 @@ $year = date("Y");
             return str_replace($symbol, $replacement, $string);
         }
 
-        echo characterReplacement("я функция замены пробелов на символ подчеркивания<br>");
+        echo characterReplacement("Я функция замены пробелов на символ подчеркивания<br>");
         echo '<br>';
 
         echo '<p class="task">6. В имеющемся шаблоне сайта заменить статичное меню (ul – li) на генерируемое через PHP.<br> 
@@ -201,21 +209,22 @@ $year = date("Y");
                 'url' => '/contacts/contacts.php',
             ],
         ];
-        function render_menu($menu)
+        function render_menu($menu, $ul_class, $li_class, $a_class)
         {
-            echo '<ul>';
+            echo "<ul class= '$ul_class' >";
             foreach ($menu as $list_item) {
-                echo '<li>';
-                echo "<a class='top_menu_link' href='{$list_item['url']}'>{$list_item['title']}</a>";
+                echo "<li class='$li_class'>";
+                echo "<a class='$a_class' href='{$list_item['url']}'>{$list_item['title']}</a>";
+                //if (isset($list_item['items']) && is_array($list_item['items'])) { // вариант преподавателя
                 if (array_key_exists('items', $list_item) && is_array($list_item['items'])) {
-                    render_menu($list_item['items']);
+                    render_menu($list_item['items'], 'sub_menu', 'sub_menu_list', 'sub_menu_link');
                 }
                 echo '</li>';
             }
             echo "</ul>";
         }
 
-        render_menu($menu);
+        render_menu($menu, 'top_menu', 'top_menu_list', 'top_menu_link');
         echo '</div>';
 
         echo '<br><p class="task">7. *Вывести с помощью цикла for числа от 0 до 9, не используя тело цикла. 
@@ -229,30 +238,6 @@ $year = date("Y");
 
         echo '<br><p class="task">8. *Повторить третье задание, но вывести на экран только города, 
         начинающиеся с буквы «К».</p>';
-
-        $arr = [
-            'Московская область' => [
-                'Москва',
-                'Зеленоград',
-                'Клин',
-            ],
-            'Ленинградская область' => [
-                'Санкт-Петербург',
-                'Всеволожск',
-                'Павловск',
-                'Кронштадт',
-            ],
-            'Рязанская область' => [
-                'Агломазово',
-                'Елино',
-                'Желобово',
-                'Заречный',
-                'Касимов',
-                'Лопатино',
-                'Машково',
-                'Нарма',
-            ],
-        ];
 
         foreach ($arr as $region => $cities) {
             echo "$region: <br>";
@@ -271,49 +256,14 @@ $year = date("Y");
 
         function transliterationAndReplacement($word)
         {
-            $letters = [
-                'а' => 'a',
-                'б' => 'b',
-                'в' => 'v',
-                'г' => 'g',
-                'д' => 'd',
-                'е' => 'e',
-                'ё' => 'yo',
-                'ж' => 'zh',
-                'з' => 'z',
-                'и' => 'i',
-                'й' => 'j',
-                'к' => 'k',
-                'л' => 'l',
-                'м' => 'm',
-                'н' => 'n',
-                'о' => 'o',
-                'п' => 'p',
-                'р' => 'r',
-                'с' => 's',
-                'т' => 't',
-                'у' => 'u',
-                'ф' => 'f',
-                'х' => 'x',
-                'ц' => 'c',
-                'ч' => 'ch',
-                'ш' => 'sh',
-                'щ' => 'shh',
-                'ъ' => '``',
-                'ы' => 'y\'',
-                'ь' => '`',
-                'э' => 'e`',
-                'ю' => 'yu',
-                'я' => 'ya',
-            ];
-            $transliteration = str_replace(array_keys($letters), array_values($letters), $word);
             $symbol = ' ';
             $replacement = '_';
-            return str_replace($symbol, $replacement, $transliteration);
+            return str_replace($symbol, $replacement, transliteration($word));
         }
 
-        echo transliterationAndReplacement("я функция транслитерации и замены символов прообела на символы 
+        echo transliterationAndReplacement("Я функция транслитерации и замены символов прообела на символы 
 подчеркивания<br>");
+
         ?>
     </div>
     <div class="clr"></div>
