@@ -53,11 +53,27 @@ function render_img($img)
 
 function render_img_v2($dir, $link_class)
 {
-    $img = array_diff(scandir($dir), ['..', '.']);
-    sort($img);
+    //$img = array_diff(scandir($dir), ['..', '.']);
+    //sort($img);
+    $img = array_slice(scandir($dir), 2);
     foreach ($img as $key => $src) {
         $key = $key + 1;
         echo "<a class='$link_class' href='../img/$src' target='_blank' data-src ='../img/$src' 
 data-alt='img-$key'><img class='img' src='../img/$src' alt='img-$key'></a>";
     }
+}
+
+function createGallery()
+{
+    $result = '';
+    $images = scandir(WWW_DIR . IMG_DIR);
+
+    foreach ($images as $image) {
+        if (is_file(WWW_DIR . IMG_DIR . $image)) {
+            $result .= render(TEMPLATES_DIR . 'galleryItem.tpl', [
+                'src' => IMG_DIR . $image
+            ]);
+        }
+    }
+    return $result;
 }
