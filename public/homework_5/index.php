@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../config/config.php';
 
 $sql = "SELECT * FROM `images` ORDER BY `images`.`views` DESC";
-$images = getImg($sql);
+$images = getAssocResult($sql);
 $gallery = renderImg(TEMPLATES_DIR . 'galleryItem.tpl', $images);
 $year = date("Y");
 
