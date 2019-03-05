@@ -9,7 +9,7 @@
 <nav class="nav">
     <ul class="top_menu">
         <li class="top_menu_list"><a class="top_menu_link" href="/">Главная</a></li>
-        <li class="top_menu_list"><a class="top_menu_link" href="/homework_5/index.php">Галлерея</a></li>
+        <li class="top_menu_list"><a class="top_menu_link" href="/gallery.php">Галлерея</a></li>
         <li class="top_menu_list"><a class="top_menu_link" href="/news.php">Новости</a></li>
         <li class="top_menu_list"><a class="top_menu_link" href="/reviews.php">Отзывы</a></li>
         <li class="top_menu_list"><a class="top_menu_link" href="/productsActions/readProducts.php">Товары</a></li>
@@ -17,8 +17,11 @@
     </ul>
 </nav>
 <div class="container">
-    <h1>{{H1}}</h1>
-    <div class="content">{{CONTENT}}</div>
+    <article>
+        <h3 class="heading-items">Featured Items</h3>
+        <p class="tac">Shop for items based on what we featured in this week</p>
+        <div class="box-product">{{CONTENT}}</div>
+    </article>
 </div>
 <footer class="footer">Все права защищены {{YEAR}}</footer>
 </body>
