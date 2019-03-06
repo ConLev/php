@@ -46,13 +46,13 @@ body {
     list-style-type: none;
 }
 
-.top_menu_link, .sub_menu_link, .link {
+.top_menu_link, .sub_menu_link, .link, .gallery_link {
     color: green;
     text-decoration: none;
     line-height: 25px;
 }
 
-.top_menu_link:hover, .sub_menu_link:hover, .link:hover {
+.top_menu_link:hover, .sub_menu_link:hover, .link:hover, .gallery_link:hover {
     color: red;
 }
 

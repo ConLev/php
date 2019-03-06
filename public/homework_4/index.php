@@ -57,7 +57,7 @@ $year = date("Y");
     <div class="clr"></div>
 </div>
 <footer class="footer">Все права защищены<?= " $year" ?></footer>
-<script src="../js/jquery-3.3.1.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
 <script>
     $(document).ready(() => {
         $('.img_max').click((e) => {
