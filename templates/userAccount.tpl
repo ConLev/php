@@ -18,11 +18,13 @@
     </ul>
 </nav>
 <div class="container">
-    <article>
-        <h3 class="heading-items">Featured Items</h3>
-        <p class="tac">Shop for items based on what we featured in this week</p>
-        <div class="box-product">{{CONTENT}}</div>
-    </article>
+    <h1>{{H1}}</h1>
+    <div class="user_account_box">
+        <span class="text">Здравствуйте, </span><span class="user_account_text">{{NAME}}</span>
+    </div>
+    <div class="user_account_box">
+        <span class="text">Ваш логин: </span><span class="user_account_text">{{LOGIN}}</span>
+    </div>
 </div>
 <footer class="footer">Все права защищены {{YEAR}}</footer>
 </body>
