@@ -25,3 +25,4 @@ require_once ENGINE_DIR . 'news.php';
 require_once ENGINE_DIR . 'reviews.php';
 require_once ENGINE_DIR . 'products.php';
 require_once ENGINE_DIR . 'gallery.php';
+require_once ENGINE_DIR . 'cart.php';

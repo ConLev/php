@@ -169,3 +169,27 @@ function createGallery()
     }
     return $result;
 }
+
+function loadFile($fileName, $path)
+{
+    //$fileName - имя name заданное для input типа file
+    //Если $_FILES[$fileName] не существует, и есть ошибки
+    if (empty($_FILES[$fileName]) || $_FILES[$fileName]['error']) {
+        return 0;
+    }
+
+    $file = $_FILES[$fileName];
+
+    //выбираем деректорию куда загружать изображение
+    $uploadDir = WWW_DIR . $path;
+
+    //выбираем конечное имя файла
+    $uploadFile = $uploadDir . basename($file['name']);
+
+    //Пытаемся переместить файл из временного местонахождения в постоянное
+    if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+        return $path . basename($file['name']);
+    } else {
+        return 0;
+    }
+}

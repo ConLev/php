@@ -8,8 +8,8 @@
         </div>
     </a>
     <div class="item-add_top">
-        <a class="item-add_link_top" href="#" data-id="{{ID}}" data-img="{{IMAGE}}" data-name="{{NAME}}"
-           data-rating="☆☆☆☆☆" data-color="red" data-size="XXL" data-shipping="FREE" data-price="{{PRICE}}">Add to Cart</a>
+        <a class="item-add_link_top" href="/cart/addToCart.php?id={{ID}}&img={{IMAGE}}&name={{NAME}}&price={{PRICE}}
+        &quantity=1">Add to Cart</a>
     </div>
     <div class="item-add_bottom">
         <a href="/products/createProduct.php" class="item-add_link_bottom">Create</a>
