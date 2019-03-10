@@ -48,11 +48,10 @@ function showCartItem($id)
  * Функция обновления количества и суммарной стоимости товара в корзине
  * @param int $id
  * @param $quantity
- * @param $subtotal
  * @param $price
  * @return bool|mysqli_result
  */
-function updateCartItem($id, $quantity, $subtotal, $price)
+function updateCartItem($id, $quantity, $price)
 {
     //для безопасности приводим id к числу
     $id = (int)$id;
@@ -60,8 +59,7 @@ function updateCartItem($id, $quantity, $subtotal, $price)
     //Создаем подключение к БД
     $db = createConnection();
 
-    $quantity++;
-    $subtotal += $price;
+    $subtotal = $price * $quantity;
 
     $sql = "UPDATE `cart` SET `quantity` = '$quantity', `subtotal` = '$subtotal' WHERE `cart`.`id` = $id";
 
@@ -127,6 +125,91 @@ function clearCart()
 
     //Генерируем SQL запрос на очистку корзины
     $sql = "TRUNCATE TABLE `cart`";
+
+    //Выполняем запрос
+    return execQuery($sql, $db);
+}
+
+/**
+ * Генерирует страницу заказов
+ * @return string
+ */
+function generateOrdersPage()
+{
+    //получаем по id пользователя все его заказы
+    $user_id = $_SESSION['login']['id'];
+    $sql = ($_SESSION['login']['admin']) ? $sql = "SELECT * FROM `orders`" :
+        $sql = "SELECT * FROM `orders` WHERE `user_id` = $user_id";
+    $orders = getAssocResult($sql);
+
+    $result = '';
+    foreach ($orders as $order) {
+        $order_id = $order['id'];
+
+        //получаем товары, которые есть в заказе
+        $products = getAssocResult("
+			SELECT * FROM `orders_products` as op
+			JOIN `products` as p ON `p`.`id` = `op`.`product_id`
+			WHERE `op`.`order_id` = $order_id
+		");
+
+        $content = '';
+        $orderSum = 0;
+        $status = $order['status'];
+        //генерируем элементы таблицы товаров в заказе
+        foreach ($products as $product) {
+            $count = $product['amount'];
+            $price = $product['price'];
+            $productSum = $count * $price;
+            $content .= render(TEMPLATES_DIR . 'orderTableRow.tpl', [
+                'name' => $product['name'],
+                'id' => $product['id'],
+                'count' => $count,
+                'price' => $price,
+                'sum' => $productSum
+            ]);
+            $orderSum += $productSum;
+        }
+
+        $statuses = [
+            0 => 'Заказ оформлен',
+            1 => 'Заказ собирается',
+            2 => 'Заказ готов',
+            3 => 'Заказ завершен',
+            4 => 'Заказ отменен',
+        ];
+
+        //генерируем полную таблицу заказа
+        $result .= render(TEMPLATES_DIR . 'orderTable.tpl', [
+            'id' => $order_id,
+            'content' => $content,
+            'sum' => $orderSum,
+            'status' => $statuses[$order['status']],
+            'update_status' => ($_SESSION['login']['admin'])
+                ? "<label class='user_order_status_label'><input class='user_order_status_input' type='number' 
+min='0' max='4' value='$status' data-order_id='$order_id' name='status'/></label>"
+                : $statuses[$order['status']],
+        ]);
+    }
+    return $result;
+}
+
+/**
+ * Функция обновления статуса заказа
+ * @param $order_id
+ * @param $status
+ * @return bool|mysqli_result
+ */
+function updateStatus($order_id, $status)
+{
+    //для безопасности приводим к числу
+    $order_id = (int)$order_id;
+    $status = (int)$status;
+
+    //Создаем подключение к БД
+    $db = createConnection();
+
+    $sql = "UPDATE `orders` SET `status` = $status WHERE `orders`.`id` = $order_id";
 
     //Выполняем запрос
     return execQuery($sql, $db);

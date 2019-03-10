@@ -15,6 +15,7 @@
         <li class="top_menu_list"><a class="top_menu_link" href="/products/readProducts.php">Товары</a></li>
         <li class="top_menu_list"><a class="top_menu_link" href="/cart/viewCart.php">Корзина</a></li>
         <li class="top_menu_list"><a class="top_menu_link" href="/contacts.php">Контакты</a></li>
+        <li class="logout_list"><a class="logout_link" href="/logout.php">Выйти</a></li>
     </ul>
 </nav>
 <div class="container">
@@ -25,7 +26,36 @@
     <div class="user_account_box">
         <span class="text">Ваш логин: </span><span class="user_account_text">{{LOGIN}}</span>
     </div>
+    <div class="content">{{CONTENT}}</div>
 </div>
 <footer class="footer">Все права защищены {{YEAR}}</footer>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(() => {
+        //Инициализируем поле для сообщений
+        const $message_field = $('.error_message');
+        $('.user_order_status_input').on('click', e => {
+            console.log(e.currentTarget.value);
+            $.post({
+                url: '/api.php',
+                data: {
+                    apiMethod: 'updateStatus',
+                    postData: {
+                        order_id: $(e.currentTarget).data('order_id'),
+                        status: (e.currentTarget).value,
+                    }
+                },
+                success: function (data) {
+                    if (data.data) {
+                        location.reload();
+                    }
+                    if (data.error) {
+                        $message_field.text(data['error_text']);
+                    }
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
